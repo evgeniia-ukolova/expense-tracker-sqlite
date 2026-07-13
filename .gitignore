@@ -1,0 +1,19 @@
+# Python cache Не добавлять служебные Python-файлы.
+__pycache__/
+*.pyc
+
+# Virtual environments Не добавлять виртуальное окружение.
+.venv/
+venv/
+
+# Environment variables Не добавлять файл с секретами, токенами, паролями.
+.env
+
+# macOS files Не добавлять мусорный файл macOS.
+.DS_Store
+
+# VS Code settings Не добавлять папку .vscode в репозиторий
+.vscode/
+
+# Local SQLite database Не добавлять локальную базу данных.
+expenses.db
