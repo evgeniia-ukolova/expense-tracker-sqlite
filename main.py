@@ -23,7 +23,15 @@ from database import (
     search_expenses_by_description
 )
 
-from utils import show_menu, get_int, get_number, get_date, get_month, export_expenses_to_csv
+from utils import (
+    show_menu, 
+    get_int, 
+    get_number, 
+    get_date, 
+    get_month, 
+    export_expenses_to_csv, 
+    read_expenses_from_csv
+)
 
 
 def format_date(date: str) -> str:          # форматированиe даты
@@ -229,6 +237,22 @@ def show_categories() -> None:          # список всех категори
         print(f"- {category}")
 
 
+def import_expenses_from_csv() -> None:         # функция чтения расходов из CSV.
+    expenses = read_expenses_from_csv("expenses.csv")
+
+    if not expenses:
+        print("Нет расходов для импорта")
+        return
+
+    imported_count = 0
+
+    for title, amount, category, date, description in expenses:
+        if add_expense(title, amount, category, date, description):
+            imported_count += 1
+
+    print(f"Импортировано расходов: {imported_count}")
+
+
 
 
 
@@ -311,6 +335,9 @@ def main() -> None:
             export_expenses_to_csv(expenses)
 
         elif choice == 20:
+            import_expenses_from_csv()
+
+        elif choice == 21:
             print("Выход")
             break
 
