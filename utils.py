@@ -1,4 +1,5 @@
 from datetime import datetime, date
+import csv
 
 def show_menu() -> None:
     print()
@@ -18,7 +19,8 @@ def show_menu() -> None:
     print("14. Показать средний расход за месяц")
     print("15. Показать самый большой расход за месяц")
     print("16. Показать самый маленький расход за месяц")
-    print("18. Показать категории")
+    print("17. Показать категории")
+    print("18. Экспортировать расходы в CSV")
     print("19. Выйти")
 
 
@@ -67,4 +69,16 @@ def get_month(message: str) -> str:         # валидация месяца
             print("Введите месяц в формате YYYY-MM")
 
 
+def export_expenses_to_csv(expenses):           # функция экспорта расходов
+    
+    if not expenses:
+        print("Нет расходов для экспорта")
+        return
+
+    with open("expenses.csv", "w", newline="", encoding="utf-8") as file:           # Создаёт или перезаписывает файл expenses.csv
+        writer = csv.writer(file)                                                   # Создаёт специальный объект для записи данных в формате CSV
+        writer.writerow(["ID", "Название", "Сумма", "Категория", "Дата", "Описание"])   # Записывает первую строку файла — названия столбцов
+        writer.writerows(expenses)                                                      # Записывает сразу все расходы, которые пришли в функцию
+
+    print("Расходы экспортированы в expenses.csv")
 

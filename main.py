@@ -22,7 +22,7 @@ from database import (
     get_categories
 )
 
-from utils import show_menu, get_int, get_number, get_date, get_month
+from utils import show_menu, get_int, get_number, get_date, get_month, export_expenses_to_csv
 
 
 def format_date(date: str) -> str:          # форматированиe даты
@@ -286,8 +286,12 @@ def main() -> None:
         elif choice == 16:
             show_min_expense_by_month()
 
-        elif choice == 18:
+        elif choice == 17:
             show_categories()
+
+        elif choice == 18:
+            expenses = get_expenses()               # получает все расходы из базы
+            export_expenses_to_csv(expenses)        # передаёт их в функцию экспорта, которая создаёт expenses.csv
 
         elif choice == 19:
             print("Выход")
