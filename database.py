@@ -114,6 +114,29 @@ def search_expenses_by_title(query: str) -> list[tuple]:        # поиск р�
     return expenses
 
 
+def search_expenses_by_description(query: str) -> list[tuple]:          # функция поиска расходов по описанию.
+    query = query.strip()
+
+    if not query:
+        return []
+
+    connection = sqlite3.connect("expenses.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+    SELECT id, title, amount, category, date, description
+    FROM expenses
+    WHERE description LIKE ?
+    ORDER BY date DESC, id DESC
+    """, (f"%{query}%",))
+
+    expenses = cursor.fetchall()
+
+    connection.close()
+
+    return expenses
+
+
 def get_expenses_by_category(category: str) -> list[tuple]:         # фильтр расходов по категории.
     category = category.strip().lower()
 

@@ -19,7 +19,8 @@ from database import (
     get_max_expense_by_month,
     get_min_expense_by_month,
     add_description_column,
-    get_categories
+    get_categories,
+    search_expenses_by_description
 )
 
 from utils import show_menu, get_int, get_number, get_date, get_month, export_expenses_to_csv
@@ -129,6 +130,19 @@ def search_expenses() -> None:          # поиск расходов по на�
     query = input("Введите часть названия расхода: ")
 
     expenses = search_expenses_by_title(query)
+
+    if not expenses:
+        print("Расходы не найдены")
+        return
+
+    for expense in expenses:
+        print_expense(expense)
+
+
+def search_expenses_by_description_text() -> None:          # функция поиска расходов по описанию.
+    query = input("Введите часть описания расхода: ")
+
+    expenses = search_expenses_by_description(query)
 
     if not expenses:
         print("Расходы не найдены")
@@ -290,10 +304,13 @@ def main() -> None:
             show_categories()
 
         elif choice == 18:
-            expenses = get_expenses()               # получает все расходы из базы
-            export_expenses_to_csv(expenses)        # передаёт их в функцию экспорта, которая создаёт expenses.csv
+            search_expenses_by_description_text()
 
-        elif choice == 19:
+        elif choice == 19:      
+            expenses = get_expenses()               # получает все расходы из базы
+            export_expenses_to_csv(expenses)
+
+        elif choice == 20:
             print("Выход")
             break
 
