@@ -69,6 +69,40 @@ def add_expense(title: str, amount: float, category: str, date: str, description
     return True
 
 
+def expense_exists(             # функция проверки существующего расхода.
+    title: str,
+    amount: float,
+    category: str,
+    date: str,
+    description: str
+) -> bool:
+    title = title.strip()
+    category = category.strip().lower()
+    date = date.strip()
+    description = description.strip()
+
+    connection = sqlite3.connect("expenses.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+    SELECT 1
+    FROM expenses
+    WHERE title = ?
+      AND amount = ?
+      AND category = ?
+      AND date = ?
+      AND description = ?
+    LIMIT 1
+    """, (title, amount, category, date, description))
+    # Мы не получаем весь расход, а только проверяем, есть ли подходящая запись.
+
+    expense = cursor.fetchone()
+
+    connection.close()
+
+    return expense is not None
+
+
 def get_expenses() -> list[tuple]:              # показать расходы из базы
     connection = sqlite3.connect("expenses.db")
     cursor = connection.cursor()

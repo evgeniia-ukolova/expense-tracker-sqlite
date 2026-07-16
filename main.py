@@ -20,7 +20,8 @@ from database import (
     get_min_expense_by_month,
     add_description_column,
     get_categories,
-    search_expenses_by_description
+    search_expenses_by_description,
+    expense_exists
 )
 
 from utils import (
@@ -245,12 +246,18 @@ def import_expenses_from_csv() -> None:         # функция чтения р
         return
 
     imported_count = 0
+    skipped_count = 0
 
     for title, amount, category, date, description in expenses:
+        if expense_exists(title, amount, category, date, description):
+            skipped_count += 1
+            continue
+
         if add_expense(title, amount, category, date, description):
             imported_count += 1
 
     print(f"Импортировано расходов: {imported_count}")
+    print(f"Пропущено дубликатов: {skipped_count}")
 
 
 
