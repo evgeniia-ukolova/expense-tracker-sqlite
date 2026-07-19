@@ -32,7 +32,8 @@ from utils import (
     get_month, 
     export_expenses_to_csv, 
     read_expenses_from_csv,
-    create_database_backup
+    create_database_backup,
+    restore_database_backup
 )
 
 
@@ -349,6 +350,9 @@ def main() -> None:
             create_database_backup()
 
         elif choice == 22:
+            restore_database_backup()
+
+        elif choice == 23:
             print("Выход")
             break
 
