@@ -1,8 +1,9 @@
 import sqlite3
+from paths import DATABASE_PATH
 
 
 def create_table() -> None:         # создание таблицы
-    connection = sqlite3.connect("expenses.db")         # подключаемся к базе. Если файла нет, SQLite создаст его.
+    connection = sqlite3.connect(DATABASE_PATH)         # подключаемся к базе. Если файла нет, SQLite создаст его.
     cursor = connection.cursor()                        # инструмент, через который мы отправляем SQL-команды.
                                                         # CREATE TABLE IF NOT EXISTS expenses — создать таблицу expenses, если её ещё нет.
     cursor.execute("""
@@ -20,7 +21,7 @@ def create_table() -> None:         # создание таблицы
 
 
 def add_description_column() -> None:           # добавить новую колонку в существующую таблицу
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     try:            # Почему try/except: если ты запустишь программу второй раз, колонка уже будет существовать, и SQLite выдаст ошибку.
@@ -55,7 +56,7 @@ def add_expense(title: str, amount: float, category: str, date: str, description
     if not date:
         return False
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -81,7 +82,7 @@ def expense_exists(             # функция проверки существ
     date = date.strip()
     description = description.strip()
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -104,7 +105,7 @@ def expense_exists(             # функция проверки существ
 
 
 def get_expenses() -> list[tuple]:              # показать расходы из базы
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -130,7 +131,7 @@ def search_expenses_by_title(query: str) -> list[tuple]:        # поиск р�
     if not query:           # если пользователь ничего не ввёл — возвращаем пустой список
         return []
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -154,7 +155,7 @@ def search_expenses_by_description(query: str) -> list[tuple]:          # фун
     if not query:
         return []
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -177,7 +178,7 @@ def get_expenses_by_category(category: str) -> list[tuple]:         # фильт
     if not category:
         return []
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -197,7 +198,7 @@ def get_expenses_by_category(category: str) -> list[tuple]:         # фильт
 
 
 def get_categories() -> list[str]:              # список всех категорий
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -225,7 +226,7 @@ def get_expenses_by_month(month: str) -> list[tuple]:       # фильтр ра�
     if not month:
         return []
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -251,7 +252,7 @@ def get_total_by_month(month: str) -> float:        # сумму расходо�
     if not month:
         return 0
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -271,7 +272,7 @@ def get_total_by_month(month: str) -> float:        # сумму расходо�
 
 
 def get_total() -> float:               # общая сумма расходов
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -291,7 +292,7 @@ def get_total() -> float:               # общая сумма расходов
 
 
 def get_totals_by_categories() -> list[tuple]:          # cумма по категориям
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -315,7 +316,7 @@ def get_total_by_category(category: str) -> float:          # общую сум�
     if not category:
         return 0
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -340,7 +341,7 @@ def get_expenses_count_by_month(month: str) -> int:         # вывод кол�
     if not month:
         return 0
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -363,7 +364,7 @@ def get_average_expense_by_month(month: str) -> float:          # средний
     if not month:
         return 0
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -389,7 +390,7 @@ def get_max_expense_by_month(month: str) -> tuple | None:       # самый б�
     if not month:
         return None
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -414,7 +415,7 @@ def get_min_expense_by_month(month: str) -> tuple | None:           # самый
     if not month:
         return None
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -433,7 +434,7 @@ def get_min_expense_by_month(month: str) -> tuple | None:           # самый
 
 
 def get_totals_by_months() -> list[tuple]:          # итоговая сумма по месяцам
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -453,7 +454,7 @@ def get_totals_by_months() -> list[tuple]:          # итоговая сумм�
 
 
 def delete_expense(expense_id: int) -> bool:        # удаление расхода по ID.
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -494,7 +495,7 @@ def update_expense(                     # редактирование расх�
     if not date:
         return False
 
-    connection = sqlite3.connect("expenses.db")
+    connection = sqlite3.connect(DATABASE_PATH)
     cursor = connection.cursor()
 
     cursor.execute("""

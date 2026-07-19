@@ -241,7 +241,7 @@ def show_categories() -> None:          # список всех категори
 
 
 def import_expenses_from_csv() -> None:         # функция чтения расходов из CSV.
-    expenses = read_expenses_from_csv("expenses.csv")
+    expenses = read_expenses_from_csv()
 
     if not expenses:
         print("Нет расходов для импорта")
