@@ -240,11 +240,12 @@ def show_categories() -> None:          # список всех категори
         print(f"- {category}")
 
 
-def import_expenses_from_csv() -> None:         # функция чтения расходов из CSV.
-    expenses = read_expenses_from_csv()
+def import_expenses_from_csv() -> None:                     # функция импорта расходов с подсчётом ошибок и дубликатов.
+    expenses, invalid_count = read_expenses_from_csv()      # Функция получает сразу два результата: правильные расходы и количество ошибочных строк
 
     if not expenses:
         print("Нет расходов для импорта")
+        print(f"Ошибочных строк: {invalid_count}")
         return
 
     imported_count = 0
@@ -260,6 +261,7 @@ def import_expenses_from_csv() -> None:         # функция чтения р
 
     print(f"Импортировано расходов: {imported_count}")
     print(f"Пропущено дубликатов: {skipped_count}")
+    print(f"Ошибочных строк: {invalid_count}")
 
 
 
