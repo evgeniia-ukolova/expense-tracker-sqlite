@@ -106,10 +106,25 @@ def read_expenses_from_csv() -> tuple[list[tuple], int]:            # функц
                     invalid_count += 1          # если значений не 6, строка неправильная, + счётчик ошибочных строк на 1.
                     continue
 
-                _, title, amount, category, date, description = row
+                _, title, amount, category, expense_date, description = row
+
+                title = title.strip()
+                category = category.strip()
+                expense_date = expense_date.strip()
+                description = description.strip()
 
                 try:                        # Если сумму невозможно превратить в число, пропускается только эта строка.
                     amount = float(amount)
+                except ValueError:
+                    invalid_count += 1
+                    continue
+
+                if not title or not category or amount <= 0:
+                    invalid_count += 1
+                    continue
+
+                try:
+                    datetime.strptime(expense_date, "%Y-%m-%d")         # Проверяет, что дата записана строго в формате
                 except ValueError:
                     invalid_count += 1
                     continue
@@ -118,7 +133,7 @@ def read_expenses_from_csv() -> tuple[list[tuple], int]:            # функц
                     title,
                     amount,
                     category,
-                    date,
+                    expense_date,
                     description
                 ))
 
