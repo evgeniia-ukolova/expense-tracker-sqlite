@@ -1,5 +1,7 @@
 from datetime import datetime, date
 import csv
+from pathlib import Path
+import shutil
 
 def show_menu() -> None:
     print()
@@ -23,7 +25,8 @@ def show_menu() -> None:
     print("18. Найти расход по описанию")
     print("19. Экспортировать расходы в CSV")
     print("20. Импортировать расходы из CSV")
-    print("21. Выйти")
+    print("21. Создать резервную копию базы")
+    print("22. Выйти")
 
 
 
@@ -119,5 +122,16 @@ def read_expenses_from_csv(filename: str) -> list[tuple]:           # функц
     return expenses
 
 
+def create_database_backup() -> None:           # функция создания резервной копии базы
+    database_path = Path("expenses.db")         # Создаёт путь к текущей базе данных
+    backups_directory = Path("backups")         # Создаёт путь к папке, где будут храниться копии
 
+    if not database_path.exists():
+        print("База данных не найдена")
+        return
+
+    backups_directory.mkdir(exist_ok=True)                      # Создаёт папку backups, если её ещё нет. программа не выдаст ошибку, если папка уже существует
+    backup_path = backups_directory / "expenses_backup.db"      # Создаёт путь:
+    shutil.copy2(database_path, backup_path)                    # Копирует базу данных в папку backups. copy2() сохраняет не только содержимое файла, но и часть его метаданных, например время изменения
+    print(f"Резервная копия создана: {backup_path}")
 
