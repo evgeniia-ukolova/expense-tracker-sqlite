@@ -82,5 +82,54 @@ class TestDatabase(unittest.TestCase):
         self.assertFalse(not_exists)
 
 
+    def test_update_expense(self):          # расход по ID успешно редактируется и все новые значения сохраняются в базе.
+        database.add_expense(
+            "Кофе",
+            250,
+            "кафе",
+            "2026-07-22",
+            "Капучино"
+        )
+
+        expense_id = database.get_expenses()[0][0]
+
+        updated = database.update_expense(
+            expense_id,
+            "Такси",
+            500,
+            "Транспорт",
+            "2026-07-23",
+            "Поездка домой"
+        )
+
+        expenses = database.get_expenses()
+        expense = expenses[0]
+
+        self.assertTrue(updated)
+        self.assertEqual(expense[1], "Такси")
+        self.assertEqual(expense[2], 500)
+        self.assertEqual(expense[3], "транспорт")
+        self.assertEqual(expense[4], "2026-07-23")
+        self.assertEqual(expense[5], "Поездка домой")
+
+
+    def test_delete_expense(self):          # расход по ID успешно удаляется и база после удаления становится пустой.
+        database.add_expense(
+            "Кофе",
+            250,
+            "кафе",
+            "2026-07-22",
+            "Капучино"
+        )
+
+        expense_id = database.get_expenses()[0][0]
+
+        deleted = database.delete_expense(expense_id)
+        expenses = database.get_expenses()
+
+        self.assertTrue(deleted)
+        self.assertEqual(expenses, [])
+
+
 if __name__ == "__main__":
     unittest.main()
