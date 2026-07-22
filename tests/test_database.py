@@ -289,5 +289,83 @@ class TestDatabase(unittest.TestCase):
         self.assertEqual(count, 2)
 
 
+
+    def test_get_average_expense_by_month(self):            # правильный расчёт среднего расхода за выбранный месяц
+        database.add_expense(
+            "Кофе",
+            200,
+            "кафе",
+            "2026-07-22",
+            ""
+        )
+
+        database.add_expense(
+            "Обед",
+            600,
+            "кафе",
+            "2026-07-23",
+            ""
+        )
+
+        average = database.get_average_expense_by_month("2026-07")
+
+        self.assertEqual(average, 400)
+
+
+    def test_get_max_expense_by_month(self):            # поиск самого большого расхода за выбранный месяц
+        database.add_expense(
+            "Кофе",
+            200,
+            "кафе",
+            "2026-07-22",
+            ""
+        )
+
+        database.add_expense(
+            "Обед",
+            600,
+            "кафе",
+            "2026-07-23",
+            ""
+        )
+
+        expense = database.get_max_expense_by_month("2026-07")
+
+        self.assertIsNotNone(expense)
+        self.assertEqual(expense[1], "Обед")
+        self.assertEqual(expense[2], 600)
+
+
+    def test_get_min_expense_by_month(self):            # поиск самого маленького расхода за выбранный месяц
+        database.add_expense(
+            "Кофе",
+            200,
+            "кафе",
+            "2026-07-22",
+            ""
+        )
+
+        database.add_expense(
+            "Обед",
+            600,
+            "кафе",
+            "2026-07-23",
+            ""
+        )
+
+        expense = database.get_min_expense_by_month("2026-07")
+
+        self.assertIsNotNone(expense)
+        self.assertEqual(expense[1], "Кофе")
+        self.assertEqual(expense[2], 200)
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
     unittest.main()
