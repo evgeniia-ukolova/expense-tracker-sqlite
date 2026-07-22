@@ -131,5 +131,80 @@ class TestDatabase(unittest.TestCase):
         self.assertEqual(expenses, [])
 
 
+    def test_get_total(self):           # общая сумма всех расходов рассчитывается правильно
+        database.add_expense(
+            "Кофе",
+            250,
+            "кафе",
+            "2026-07-22",
+            ""
+        )
+
+        database.add_expense(
+            "Такси",
+            500,
+            "транспорт",
+            "2026-07-22",
+            ""
+        )
+
+        total = database.get_total()
+
+        self.assertEqual(total, 750)
+
+
+    def test_get_expenses_by_category(self):            # фильтр возвращает расходы только выбранной категории
+        database.add_expense(
+            "Кофе",
+            250,
+            "кафе",
+            "2026-07-22",
+            ""
+        )
+
+        database.add_expense(
+            "Такси",
+            500,
+            "транспорт",
+            "2026-07-22",
+            ""
+        )
+
+        expenses = database.get_expenses_by_category("кафе")
+
+        self.assertEqual(len(expenses), 1)
+        self.assertEqual(expenses[0][1], "Кофе")
+
+
+    def test_get_total_by_category(self):           # сумма расходов выбранной категории рассчитывается правильно
+        database.add_expense(
+            "Кофе",
+            250,
+            "кафе",
+            "2026-07-22",
+            ""
+        )
+
+        database.add_expense(
+            "Обед",
+            600,
+            "кафе",
+            "2026-07-23",
+            ""
+        )
+
+        database.add_expense(
+            "Такси",
+            500,
+            "транспорт",
+            "2026-07-22",
+            ""
+        )
+
+        total = database.get_total_by_category("кафе")
+
+        self.assertEqual(total, 850)
+
+
 if __name__ == "__main__":
     unittest.main()
