@@ -206,5 +206,88 @@ class TestDatabase(unittest.TestCase):
         self.assertEqual(total, 850)
 
 
+    def test_get_expenses_by_month(self):           # программа возвращает расходы только за выбранный месяц
+        database.add_expense(
+            "Кофе",
+            250,
+            "кафе",
+            "2026-07-22",
+            ""
+        )
+
+        database.add_expense(
+            "Такси",
+            500,
+            "транспорт",
+            "2026-08-03",
+            ""
+        )
+
+        expenses = database.get_expenses_by_month("2026-07")
+
+        self.assertEqual(len(expenses), 1)
+        self.assertEqual(expenses[0][1], "Кофе")
+
+
+    def test_get_total_by_month(self):          # сумма расходов за выбранный месяц рассчитывается правильно
+        database.add_expense(
+            "Кофе",
+            250,
+            "кафе",
+            "2026-07-22",
+            ""
+        )
+
+        database.add_expense(
+            "Обед",
+            600,
+            "кафе",
+            "2026-07-23",
+            ""
+        )
+
+        database.add_expense(
+            "Такси",
+            500,
+            "транспорт",
+            "2026-08-03",
+            ""
+        )
+
+        total = database.get_total_by_month("2026-07")
+
+        self.assertEqual(total, 850)
+
+
+    def test_get_expenses_count_by_month(self):         # количество расходов за выбранный месяц рассчитывается правильно
+        database.add_expense(
+            "Кофе",
+            250,
+            "кафе",
+            "2026-07-22",
+            ""
+        )
+
+        database.add_expense(
+            "Обед",
+            600,
+            "кафе",
+            "2026-07-23",
+            ""
+        )
+
+        database.add_expense(
+            "Такси",
+            500,
+            "транспорт",
+            "2026-08-03",
+            ""
+        )
+
+        count = database.get_expenses_count_by_month("2026-07")
+
+        self.assertEqual(count, 2)
+
+
 if __name__ == "__main__":
     unittest.main()
